@@ -28,8 +28,8 @@ public class EmployeeController {
                     MediaType.APPLICATION_JSON_VALUE
             }
     )
-    public EmployeeList getAllEmployees()   {
-        return employeeService.getAll ();
+    public ResponseEntity<EmployeeList> getAllEmployees()   {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.fetchAll());
     }
 
     @RequestMapping(
@@ -41,9 +41,9 @@ public class EmployeeController {
                     MediaType.APPLICATION_JSON_VALUE
             }
     )
-    public Employee getEmployee(@PathVariable(value="id") Integer id)   {
+    public ResponseEntity<Employee> getEmployee(@PathVariable(value="id") Integer id)   {
         System.out.println("ID = " + id);
-        return employeeService.get (id);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.fetch(id));
     }
 
     @RequestMapping(
@@ -59,7 +59,7 @@ public class EmployeeController {
         System.out.println(employee.getId ());
         System.out.println(employee.getFirstName ());
         System.out.println(employee.getLastName ());
-        employeeService.add (employee);
+        employeeService.insert(employee);
         return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 

@@ -23,7 +23,7 @@ public class EmployeeService {
         keyFactory = DataBaseService.getKeyFactory (Employee.class);
     }
 
-    public void add (Employee employee) {
+    public void insert(Employee employee) {
         String entry = validate(employee);
         /*if(entry != null)  {
             entry + " cannot be empty";
@@ -44,7 +44,7 @@ public class EmployeeService {
 //        return "Created";
     }
 
-    public Employee get(Integer id)   {
+    public Employee fetch(Integer id)   {
         Key key = keyFactory.newKey (id);
         Entity entity = DataBaseService.getDateStore ().get (key);
         Employee employee =
@@ -56,7 +56,7 @@ public class EmployeeService {
         return employee;
     }
 
-    public EmployeeList getAll()    {
+    public EmployeeList fetchAll()    {
         Query<Entity> query = Query.newGqlQueryBuilder (Query.ResultType.ENTITY, "select * from " + KIND).build();
         QueryResults<Entity> results = DataBaseService.getDateStore ().run(query);
         EmployeeList employees = new EmployeeList ();
@@ -72,7 +72,7 @@ public class EmployeeService {
         Key key = keyFactory.newKey (id);
         Entity entity = DataBaseService.getDateStore ().get (key);
         if(entity == null)  {
-            add (employee);
+            insert(employee);
             return;
         }
         entity = Entity.newBuilder (key)
